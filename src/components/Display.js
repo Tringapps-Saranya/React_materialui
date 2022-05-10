@@ -1,103 +1,123 @@
-import { Grid, Card, CardContent, CardHeader, CardMedia, IconButton, Typography, Menu, MenuItem, Dialog, DialogActions, Button, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import React, { useState } from 'react'
-import '../assets/productform.css';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import profile_picture from '../assets/profile_picture.png'
+import React from "react";
+import { Card, CardContent, Typography,  Button, CardMedia, CardHeader, IconButton, Menu, MenuItem, Grid, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@mui/material';
 import Grocery_items from '../assets/Grocery_items.jfif'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useState } from "react";
+import '../assets/productform.css'
+export default function Display({ productdetails, setProductDetails, setName, setPrice }) {
 
-export const Display = ({ productdetails }) => {
+    const [dialogOpen, setOpen] = useState(false);
+    const [storeIndex, setStoreIndex] = useState(null);
+    const [editProduct, setEditProduct] = useState(null);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-    const [anchorEl, setAnchorEl] = useState(null)
-    const open = Boolean(anchorEl)
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget)
+    const handleClickClose = () => {
+        setOpen(false);
+    };
+
+    const handleOk = () => {
+        handleDelete();
+        setOpen(false);
+    }
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClickIcon = (event, index, product) => {
+        setAnchorEl(event.currentTarget);
+        setStoreIndex(index);
+        setEditProduct(product)
     }
     const handleClose = () => {
-        setAnchorEl(null)
+
+        setAnchorEl(null);
     }
-    const editCard = () => {
-       
+    const handleEdit = () => {
+        setName(editProduct.ProductName)
+        setPrice(editProduct.ProductPrice)
+        handleDelete();
     }
-    const deleteCard = () => {
-       handleClickOpen()
+
+    const handleDelete = () => {
+        productdetails.splice(storeIndex, 1);
+        setProductDetails(productdetails)
+        handleClose()
     }
-    const [show, setShow] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setShow(true);
-    };
+    return (
+        <>
+            <Grid container spacing={3}>
+                {
+                    productdetails.map((productdetails, index) => {
+                        return (
+                            <Grid item xs={3}>
+                                <div key={index}>
+                                    <Menu id='menus' anchorEl={anchorEl} open={open} MenuListProps={{
+                                        'aria-labelledby': 'iconId',
+                                    }}
+                                        onClose={handleClose}>
+                                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                                        <MenuItem onClick={handleClickOpen}>Delete</MenuItem>
+                                    </Menu>
 
-    const closedialog = () => {
-        setShow(false);
-    };
+                                    <Card sx={{ margin: '30px' }}>
+                                        <CardHeader title={productdetails.Name}
+                                            action={
+                                                <IconButton id='iconId' aria-controls={open ? 'menus' : undefined} aria-haspopup='true' aria-expanded={open ? 'true' : undefined}>
+                                                    <MoreVertIcon onClick={(event) => handleClickIcon(event, index, productdetails)} />
+                                                </IconButton>
+                                            }
+                                        />
+                                        <CardMedia
+                                            component='img'
+                                            height='140'
+                                            image={Grocery_items}
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant='h5' component='div'>ProductDetails</Typography>                               <Typography variant='body2' color='text.secondary'>
+                                                <div key={index}>
+                                                    <div>Product_Name  : {productdetails.Name}</div>
+                                                    <div>Product_Price : {productdetails.Price}</div>
+                                                </div>
+                                            </Typography>
 
-    console.log(productdetails);
-    return (<div>
+                                        </CardContent>
+                                    </Card>
 
-        <Grid container spacing={2}>{
-            productdetails.map((data, index) => {
-                return (
-                    <Grid items xs={2} className='margin-outside' key={data.name}>
-                        <Card variant='outlined' className='m-set'>
-                            <CardHeader title={data.Name} action={
-                                <IconButton>
-                                    < MoreVertIcon id="dot-icon" onClick={(event)=>handleClick(event)}
-                                        aria-controls={open ? 'icon-menu' : undefined}
-                                        aria-haspopup='true'
-                                        aria-expanded={open ? 'true' : undefined} />
-                                </IconButton>
-                            } />
-                            <Menu id="icon-menu" anchorEl={anchorEl}
-                                open={open}
-                                MenuListProps={
-                                    {
-                                        'aria-labelledby': 'dot-icon',
-                                    }
-                                }
-                                onClose={handleClose}>
-                                <MenuItem onClick={editCard}>Edit</MenuItem>
-                                <MenuItem onClick={deleteCard}>Delete</MenuItem>
-                            </Menu>
-                            <Dialog
-                                open={show}
-                                onClose={handleClose}
-                                aria-labelledby="alert-dialog-title"
-                                aria-describedby="alert-dialog-description"
-                            >
-                                <DialogTitle id="alert-dialog-title">
-                                </DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText id="alert-dialog-description">
-                                        Are u sure to delete this product?
-                                    </DialogContentText>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={closedialog}>Cancel</Button>
-                                    <Button onClick={handleClickOpen} autoFocus>
-                                        Yes
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
-                            <CardMedia component='img' height='220' image={Grocery_items} alt={profile_picture} />
-                            <CardContent>
-                                <Typography gutterBottom variant='h5' component='div'>ProductDetails</Typography>
-                                <Typography variant='body2' color='text.secondary'>
-                                    <div key={index}>
-                                        <div>Product_Name  : {data.Name}</div>
-                                        <div>Product_Price : {data.Price}</div>
-                                    </div>
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                )
-            })
-        }
-        </Grid>
-    </div>
+                                    <Dialog
+                                        open={dialogOpen}
+                                        onClose={handleClickClose}
+                                        aria-labelledby="alert-dialog-title"
+                                        aria-describedby="alert-dialog-description"
+                                    >
+                                        <DialogTitle id="alert-dialog-title">
+                                            {"Delete Product"}
+                                        </DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText id="alert-dialog-description">
+                                                Are you sure to delete this product?
+                                            </DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleClickClose}>cancel</Button>
+                                            <Button onClick={handleOk} autoFocus>
+                                                Ok
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
+
+                                </div>
+                            </Grid>
+                        )
+
+                    })
+                }
+            </Grid>
+
+        </>
+
     )
 }
-
 
 
 
