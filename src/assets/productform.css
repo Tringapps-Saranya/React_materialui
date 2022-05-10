@@ -1,0 +1,21 @@
+
+.formbox{
+  background-color: azure;
+  display: flex;
+  width : 500px;
+  height: 400px;
+  margin-top: 50px;
+  margin-left: 450px;
+}
+form{
+  padding:  100px 120px;
+  text-align: center;
+  line-height: 5;
+}
+.m-set{
+  margin: 10px;
+  width: 280px;
+}
+.margin-outside{
+  margin: 10px;
+}
