@@ -20,6 +20,7 @@ export default function Display({ productdetails, setProductDetails, setName, se
     const handleOk = () => {
         handleDelete();
         setOpen(false);
+
     }
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -33,6 +34,7 @@ export default function Display({ productdetails, setProductDetails, setName, se
         setAnchorEl(null);
     }
     const handleEdit = () => {
+        // console.log(setName,setPrice);
         setName(editProduct.ProductName)
         setPrice(editProduct.ProductPrice)
         handleDelete();
@@ -118,6 +120,7 @@ export default function Display({ productdetails, setProductDetails, setName, se
 
     )
 }
+
 
 
 
