@@ -35,8 +35,8 @@ export default function Display({ productdetails, setProductDetails, setName, se
     }
     const handleEdit = () => {
         // console.log(setName,setPrice);
-        setName(editProduct.ProductName)
-        setPrice(editProduct.ProductPrice)
+        setName(editProduct.Name)
+        setPrice(editProduct.Price)
         handleDelete();
     }
 
