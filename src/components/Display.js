@@ -1,8 +1,7 @@
-import React from "react";
+import React ,  { useState }from "react";
 import { Card, CardContent, Typography,  Button, CardMedia, CardHeader, IconButton, Menu, MenuItem, Grid, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@mui/material';
 import Grocery_items from '../assets/Grocery_items.jfif'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useState } from "react";
 import '../assets/productform.css'
 export default function Display({ productdetails, setProductDetails, setName, setPrice }) {
 
@@ -34,7 +33,6 @@ export default function Display({ productdetails, setProductDetails, setName, se
         setAnchorEl(null);
     }
     const handleEdit = () => {
-        // console.log(setName,setPrice);
         setName(editProduct.Name)
         setPrice(editProduct.Price)
         handleDelete();
@@ -50,7 +48,7 @@ export default function Display({ productdetails, setProductDetails, setName, se
         <>
             <Grid container spacing={3}>
                 {
-                    productdetails.map((productdetails, index) => {
+                    productdetails.map((details, index) => {
                         return (
                             <Grid item xs={3}>
                                 <div key={index}>
@@ -63,10 +61,10 @@ export default function Display({ productdetails, setProductDetails, setName, se
                                     </Menu>
 
                                     <Card sx={{ margin: '30px' }}>
-                                        <CardHeader title={productdetails.Name}
+                                        <CardHeader title={details.Name}
                                             action={
                                                 <IconButton id='iconId' aria-controls={open ? 'menus' : undefined} aria-haspopup='true' aria-expanded={open ? 'true' : undefined}>
-                                                    <MoreVertIcon onClick={(event) => handleClickIcon(event, index, productdetails)} />
+                                                    <MoreVertIcon onClick={(event) => handleClickIcon(event, index, details)} />
                                                 </IconButton>
                                             }
                                         />
@@ -76,10 +74,10 @@ export default function Display({ productdetails, setProductDetails, setName, se
                                             image={Grocery_items}
                                         />
                                         <CardContent>
-                                            <Typography gutterBottom variant='h5' component='div'>ProductDetails</Typography>                               <Typography variant='body2' color='text.secondary'>
+                                            <Typography gutterBottom variant='h5' component='div'>details</Typography> <Typography variant='body2' color='text.secondary'>
                                                 <div key={index}>
-                                                    <div>Product_Name  : {productdetails.Name}</div>
-                                                    <div>Product_Price : {productdetails.Price}</div>
+                                                    <div>Product_Name  : {details.Name}</div>
+                                                    <div>Product_Price : {details.Price}</div>
                                                 </div>
                                             </Typography>
 
